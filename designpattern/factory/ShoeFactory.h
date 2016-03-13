@@ -40,7 +40,8 @@ public:
 class ShoeFactory
 {
 public:
-   virtual Shoe* CreateShoe() = 0;
+   virtual Shoe* CreateShoe() = 0;  
+   virtual ~ShoeFactory(){};
 };
 
 class CityShoeFactory : public ShoeFactory
