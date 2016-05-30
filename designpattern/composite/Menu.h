@@ -38,7 +38,8 @@ public:
    void remove(Menu *n)
    {
       list<Menu*>::iterator iter = std::find(m_Collection.begin(), m_Collection.end(), n);
-      m_Collection.erase(iter);
+      if( iter != m_Collection.end() )
+         m_Collection.erase(iter);
    }
 };
 
