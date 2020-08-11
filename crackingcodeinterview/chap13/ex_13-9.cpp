@@ -58,6 +58,40 @@ public:
         }
         return *this;
     }
+    My_Shared_ptr(My_Shared_ptr<T>&& p)
+    {
+        m_lock = p.m_lock;
+        {
+            std::lock_guard<std::mutex> guard(*m_lock);
+            m_ptr = p.m_ptr;
+            m_count = p.m_count;
+            if( m_count != nullptr )
+            {
+                (*m_count)++;
+            }
+            p.m_ptr = nullptr;
+            p.m_count = nullptr;
+        }
+    }
+    
+    My_Shared_ptr<T>& operator=(My_Shared_ptr&& p)
+    {
+        if( this != &p )
+        {
+            dispose();
+            m_lock = p.m_lock;
+            {
+                std::lock_guard<std::mutex> guard(*m_lock);
+                m_ptr = p.m_ptr;
+                m_count = p.m_count;
+                if( m_count != nullptr )
+                    (*m_count)++;
+                p.m_ptr = nullptr;
+                p.m_count = nullptr;
+            }
+        }
+        return *this;
+    }
     
     T& operator*() const
     {
