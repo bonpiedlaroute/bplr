@@ -37,7 +37,8 @@ public:
             std::lock_guard<std::mutex> guard(*m_lock);
             m_ptr = p.m_ptr;
             m_count = p.m_count;
-            (*m_count)++;
+            if( m_count != nullptr )
+                (*m_count)++;
         }
     }
     
